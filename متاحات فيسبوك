@@ -70,7 +70,7 @@ API_HASH = input('API Hash : ')
 os.system('clear')
 def elia4(email):
     global tok, iid
-    ff = F + f"""
+    ff = f"""
 Facebook 
 ━─────━[ Facebook  ]━─────━
 email = {email}                        
@@ -82,6 +82,7 @@ email = {email}
 def pp(ff):
     sys.stdout.write(f'''\r {F}{ff} \r''')
     sys.stdout.flush()
+    print(ff) 
 def inf(email):
     global god_fas, bad_fas, good, bad
     pp(email)
