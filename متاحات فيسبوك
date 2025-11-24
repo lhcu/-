@@ -78,11 +78,10 @@ email = {email}
 ﴾ py - @p_8nf • @hhvvm1 • ﴿                                      
     """
     requests.post(f'https://api.telegram.org/bot{tok}/sendMessage?chat_id={iid}&text={ff}')
-    print(ff)
+    print(f'{F}{fff}') 
 def pp(ff):
     sys.stdout.write(f'''\r {F}{ff} \r''')
     sys.stdout.flush()
-    print(ff) 
 def inf(email):
     global god_fas, bad_fas, good, bad
     pp(email)
