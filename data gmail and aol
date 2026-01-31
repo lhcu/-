@@ -1,3 +1,8 @@
-{
-        'email': email,
-    }
+ {
+            'lsd': ''.join(random.choices(string.ascii_letters + string.digits, k=32)),
+            'variables': json.dumps({
+                'id': int(random.randrange(279760000,900990001)),
+                'render_surface': 'PROFILE'
+            }),
+            'doc_id': '25618261841150840'
+        }
